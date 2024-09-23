@@ -1,9 +1,10 @@
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+
 import "./bootstrap";
 import "../css/app.css";
 
-import ReactDOM from "react-dom/client";
-import Home from "./pages/Home.tsx";
-
+import router from "./router";
 
 // @ts-ignore
-ReactDOM.createRoot(document.getElementById("app")).render(<Home />);
+ReactDOM.createRoot(document.getElementById("app")).render(<RouterProvider router={router} />);
