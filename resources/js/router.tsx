@@ -1,16 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
+import PageLayout from "./components/PageLayout";
 
 const router = createBrowserRouter([
     {
-        path: '/',
-        element: <Home />,
+        element: <PageLayout/>,
+        children: [
+            {
+                path: '/',
+                element: <Home/>,
+            },
+            {
+                path: '/cart',
+                element: <Cart/>
+            },
+        ]
     },
-    {
-        path: '/cart',
-        element: <Cart />
-    }
 ])
 
 export default router;
