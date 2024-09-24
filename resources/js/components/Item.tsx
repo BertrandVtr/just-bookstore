@@ -1,10 +1,10 @@
 import { ItemInterface } from "../types";
-import { addItemToCart, selectCartIem, updateQuantity } from "../store/cartSlice";
+import { addItemToCart, selectCartItem, updateQuantity } from "../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
 const Item = (item: ItemInterface) => {
     const dispatch = useAppDispatch();
-    const cartItem = useAppSelector(state => selectCartIem(state, item.id));
+    const cartItem = useAppSelector(state => selectCartItem(state, item.id));
 
     const addToCart = () => cartItem
         ? dispatch(updateQuantity({ id: cartItem.id, quantity: cartItem.quantity + 1 }))

@@ -2,9 +2,13 @@ import Item from "../components/Item.tsx";
 import { ItemInterface } from "../types.js";
 
 const items: Array<ItemInterface> = [
-    { id: 1, title: 'Product 1', price: 10.99 },
-    { id: 2, title: 'Product 2', price: 5.49 },
-    { id: 3, title: 'Product 3', price: 7.99 },
+    { id: 1, title: 'HP 1', price: 9.99, volume: 1 },
+    { id: 2, title: 'HP 2', price: 9.99, volume: 2 },
+    { id: 3, title: 'HP 3', price: 9.99, volume: 3 },
+    { id: 4, title: 'HP 4', price: 9.99, volume: 4 },
+    { id: 5, title: 'HP 5', price: 9.99, volume: 5 },
+    { id: 6, title: 'HP 6', price: 9.99, volume: 6 },
+    { id: 7, title: 'HP 7', price: 9.99, volume: 7 },
 ]
 
 const Home = () => {

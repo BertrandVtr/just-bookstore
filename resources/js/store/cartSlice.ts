@@ -1,4 +1,3 @@
-// cartSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CartItemInterface, ItemInterface } from '../types';
 
@@ -22,20 +21,21 @@ const cartSlice = createSlice({
         removeItemFromCart: (state, action: PayloadAction<number>) => {
             state.cartItems = state.cartItems.filter(({ id }) => id !== action.payload);
         },
-        clearCart: (state) => {
-            state.cartItems = [];
-        },
         updateQuantity: (state, action: PayloadAction<{id: number; quantity: number}>) => {
             if (action.payload.quantity > 0) {
                 state.cartItems = state.cartItems.map((item) => item.id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item)
             }
         }
+    },
+    selectors: {
+        selectCartItems: (state) => state.cartItems,
+        selectTotal: (state) => state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0),
+        selectCartItem: (state, id: number) => state.cartItems.find(({ id: cartItemId }) => cartItemId === id),
+        selectIsCartEmpty: (state) => !state.cartItems.length,
     }
 });
 
-export const { addItemToCart, removeItemFromCart, clearCart, updateQuantity } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, updateQuantity } = cartSlice.actions;
+export const { selectTotal, selectCartItems, selectCartItem, selectIsCartEmpty } = cartSlice.selectors;
 
 export default cartSlice.reducer;
-
-export const selectTotal = (state: {cart: CartState}) => state.cart.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-export const selectCartIem = (state: {cart: CartState}, id: number) => state.cart.cartItems.find(({id: cartItemId}) => cartItemId === id);
