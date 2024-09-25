@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CartItemInterface, ItemInterface } from '../types';
+import { BookInterface, CartItemInterface } from '../types';
 
 interface CartState {
     cartItems: CartItemInterface[];
@@ -13,7 +13,7 @@ const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addItemToCart: (state, action: PayloadAction<ItemInterface>) => {
+        addItemToCart: (state, action: PayloadAction<BookInterface>) => {
             if (state.cartItems.every(({ id }) => id !== action.payload.id)) {
                 state.cartItems = [...state.cartItems, { ...action.payload, quantity: 1 }];
             }

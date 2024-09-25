@@ -13,15 +13,9 @@ export interface BookInterface {
     price: number,
     stock: number,
     volume: number,
+    saga: string,
 }
 
-export interface ItemInterface {
-    id: number,
-    title: string,
-    price: number,
-    volume?: number,
-}
-
-export interface CartItemInterface extends ItemInterface{
+export interface CartItemInterface extends BookInterface {
     quantity: number,
 }

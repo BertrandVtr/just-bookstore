@@ -44,11 +44,10 @@ function extractPairedDiscountedItems(cartItems: CartItemInterface[]) {
     return [pairDiscountedItems, cartItems.filter(({ quantity }) => quantity > 0)];
 }
 
-export function calculateDiscounts(cartItems: CartItemInterface[]) {
-    let sagaDiscountedItems, remaining, pairedDiscountedItems: CartItemInterface[] = [];
-
-    [sagaDiscountedItems, remaining] = extractSagaDiscountedItems(cartItems.map(item => ({ ...item })));
-    [pairedDiscountedItems] = extractPairedDiscountedItems(remaining);
+export function calculateDiscounts(cartItems: CartItemInterface[], saga: string = 'Harry Potter') {
+    const sagaItems = cartItems.filter((item) => item.saga === saga).map(item => ({ ...item }));
+    const [sagaDiscountedItems, remaining] = extractSagaDiscountedItems(sagaItems);
+    const [pairedDiscountedItems] = extractPairedDiscountedItems(remaining);
 
     const sagaDiscount = 20 / 100 * sagaDiscountedItems.reduce((total, { quantity, price }) => total + quantity * price, 0);
     const pairedDiscount = 10 / 100 * pairedDiscountedItems.reduce((total, { quantity, price }) => total + quantity * price, 0);
