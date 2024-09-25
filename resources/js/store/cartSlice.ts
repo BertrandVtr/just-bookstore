@@ -25,7 +25,10 @@ const cartSlice = createSlice({
             if (action.payload.quantity > 0) {
                 state.cartItems = state.cartItems.map((item) => item.id === action.payload.id ? { ...item, quantity: action.payload.quantity } : item)
             }
-        }
+        },
+        clearCart: (state) => {
+            state.cartItems = []
+        },
     },
     selectors: {
         selectCartItems: (state) => state.cartItems,
@@ -35,7 +38,7 @@ const cartSlice = createSlice({
     }
 });
 
-export const { addItemToCart, removeItemFromCart, updateQuantity } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export const { selectTotal, selectCartItems, selectCartItem, selectIsCartEmpty } = cartSlice.selectors;
 
 export default cartSlice.reducer;

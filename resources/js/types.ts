@@ -14,8 +14,21 @@ export interface BookInterface {
     stock: number,
     volume: number,
     saga: string,
+    image?: string,
 }
 
 export interface CartItemInterface extends BookInterface {
     quantity: number,
+}
+
+export interface OrderItemInterface {
+    book_id: number,
+    quantity: number,
+}
+
+export interface Order {
+    id: number,
+    total_price: number,
+    discount: number,
+    discount_price: number,
 }

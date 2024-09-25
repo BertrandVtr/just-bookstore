@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([HarryPotterSagaSeeder::class]);
+        $this->call([HarryPotterSagaSeeder::class, DuneSagaSeeder::class]);
     }
 }

@@ -25,6 +25,8 @@ function extractSagaDiscountedItems(cartItems: CartItemInterface[], maxVolume: n
 function extractPairedDiscountedItems(cartItems: CartItemInterface[]) {
     let pairDiscountedItems: CartItemInterface[] = [];
 
+    cartItems.sort((a, b) => a.volume - b.volume);
+
     for (let i = 0; i + 1 < cartItems.length; i++) {
         const current = cartItems[i];
         const next = cartItems[i + 1];
@@ -55,11 +57,11 @@ export function calculateDiscounts(cartItems: CartItemInterface[], saga: string 
     return {
         totalDiscount: (sagaDiscount + pairedDiscount),
         sagaDiscount: {
-            items: sagaDiscountedItems.length,
+            items: sagaDiscountedItems.reduce((total, { quantity }) => total + quantity, 0),
             amount: sagaDiscount,
         },
         pairedDiscount: {
-            items: pairedDiscountedItems.length,
+            items: pairedDiscountedItems.reduce((total, { quantity }) => total + quantity, 0),
             amount: pairedDiscount,
         },
     }

@@ -13,6 +13,8 @@ class Order extends Model
         'total_price',
         'discount',
         'discount_price',
+        'complete_saga_discount',
+        'paired_volumes_discount',
     ];
 
     public function items()

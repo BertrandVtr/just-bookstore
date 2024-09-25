@@ -14,54 +14,54 @@ class HarryPotterSagaSeeder extends Seeder
                 'title' => 'Harry Potter and the Philosopher\'s Stone',
                 'saga' => 'Harry Potter',
                 'volume' => 1,
-                'image' => 'philosophers_stone.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-1.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Chamber of Secrets',
                 'saga' => 'Harry Potter',
                 'volume' => 2,
-                'image' => 'chamber_of_secrets.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-2.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Prisoner of Azkaban',
                 'saga' => 'Harry Potter',
                 'volume' => 3,
-                'image' => 'prisoner_of_azkaban.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-3.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Goblet of Fire',
                 'saga' => 'Harry Potter',
                 'volume' => 4,
-                'image' => 'goblet_of_fire.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-4.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Order of the Phoenix',
                 'saga' => 'Harry Potter',
                 'volume' => 5,
-                'image' => 'order_of_phoenix.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-5.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Half-Blood Prince',
                 'saga' => 'Harry Potter',
                 'volume' => 6,
-                'image' => 'half_blood_prince.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-6.jpg',
                 'price' => 9.99,
             ],
             [
                 'title' => 'Harry Potter and the Deathly Hallows',
                 'saga' => 'Harry Potter',
                 'volume' => 7,
-                'image' => 'deathly_hallows.jpg',
+                'image' => 'https://www.wizardingworld.com/images/products/books/UK/rectangle-7.jpg',
                 'price' => 9.99,
             ],
         ])
             ->each(function (array $book) {
-                Book::firstOrCreate($book, ['stock' => 5]);
+                Book::updateOrCreate($book, ['stock' => 5]);
             });
     }
 }

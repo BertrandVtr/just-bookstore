@@ -52,15 +52,15 @@ const Pagination = ({ pagination, nextPage, prevPage }: {pagination: PaginationI
                 pagination.from !== pagination.last_page &&
                 < div className="mt-8 flex justify-center gap-6">
                     <button
-                        className="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 disabled:bg-gray-300 disabled:text-gray-400"
-                        disabled={pagination.current_page === pagination.from}
+                        className="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 disabled:bg-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed"
+                        disabled={pagination.current_page === 1}
                         onClick={() => prevPage()}
                     >
                         prev page
                     </button>
                     <span className="px-3 py-1 rounded-3xl bg-gray-300">{pagination.current_page}</span>
                     <button
-                        className="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 disabled:bg-gray-300 disabled:text-gray-400"
+                        className="px-3 py-1 bg-gray-200 text-gray-600 rounded hover:bg-gray-300 disabled:bg-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed"
                         disabled={pagination.current_page === pagination.last_page}
                         onClick={() => nextPage()}
                     >

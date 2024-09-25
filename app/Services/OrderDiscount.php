@@ -46,7 +46,8 @@ class OrderDiscount
             ->remainingItems
             ->where('book.saga', $saga)
             ->whereIn('book.volume', $expectedVolumes)
-            ->sortBy('book.volume');
+            ->sortBy('book.volume')
+            ->values();
 
         if (! $expectedVolumes->every(fn (int $volume) => $items->contains('book.volume', $volume))) {
             return;
@@ -71,7 +72,8 @@ class OrderDiscount
             ->remainingItems
             ->where('book.saga', $saga)
             ->whereIn('book.volume', $expectedVolumes)
-            ->sortBy('book.volume');
+            ->sortBy('book.volume')
+            ->values();
 
         $items->each(function ($item, $index) use ($maxVolume, $items) {
             $next = $items[$index + 1] ?? null;
