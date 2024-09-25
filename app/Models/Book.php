@@ -18,5 +18,6 @@ class Book extends Model
         'volume',
         'image',
         'price',
+        'stock',
     ];
 }

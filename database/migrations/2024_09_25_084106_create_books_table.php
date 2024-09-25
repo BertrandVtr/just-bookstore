@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('volume');
             $table->string('image');
             $table->float('price');
+            $table->integer('stock');
         });
     }
 

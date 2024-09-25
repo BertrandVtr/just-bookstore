@@ -11,6 +11,8 @@ export interface BookInterface {
     id: number,
     title: string,
     price: number,
+    stock: number,
+    volume: number,
 }
 
 export interface ItemInterface {
