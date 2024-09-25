@@ -61,7 +61,7 @@ class HarryPotterSagaSeeder extends Seeder
             ],
         ])
             ->each(function (array $book) {
-                Book::firstOrCreate($book, ['stock' => 50]);
+                Book::firstOrCreate($book, ['stock' => 5]);
             });
     }
 }
