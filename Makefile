@@ -1,4 +1,6 @@
-install:
+all: composer-install up npm-install npm-build migrate seed
+
+composer-install:
 	docker run --rm \
         -u "$(shell id -u):$(shell id -g)" \
         -v "$(shell pwd):/var/www/html" \
@@ -23,8 +25,6 @@ seed:
 
 start:
 	vendor/bin/sail start
-
-all: install up npm-install npm-build migrate seed
 
 down:
 	vendor/bin/sail down
