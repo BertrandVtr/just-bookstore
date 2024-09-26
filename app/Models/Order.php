@@ -13,6 +13,9 @@ class Order extends Model
     {
         static::created(function (Order $order) {
             $order->cart->update(['is_archived' => true]);
+            $order->cart->items()->each(function (CartItem $cartItem) {
+                $cartItem->book()->decrement('stock', $cartItem->quantity);
+            });
         });
     }
 
@@ -24,11 +27,6 @@ class Order extends Model
         'paired_volumes_discount',
         'cart_id',
     ];
-
-    public function items()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
 
     public function cart()
     {

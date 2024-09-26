@@ -26,11 +26,6 @@ return new class extends Migration {
             $table->foreign('cart_id')->references('id')->on('carts')->onDelete('cascade');
             $table->foreign('book_id')->references('id')->on('books')->onDelete('restrict');
         });
-
-        Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('cart_id');
-            $table->foreign('cart_id')->references('id')->on('carts')->onDelete('restrict');
-        });
     }
 
     /**
@@ -38,10 +33,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('cart_id');
-        });
-
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
     }

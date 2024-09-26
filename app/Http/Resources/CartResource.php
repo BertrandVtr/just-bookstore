@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Services\OrderDiscount;
+use App\Services\CartDiscount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,7 +15,7 @@ class CartResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $discount = OrderDiscount::from($this->items);
+        $discount = CartDiscount::from($this->resource);
 
         return [
             'items' => $this->items,

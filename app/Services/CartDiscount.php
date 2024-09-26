@@ -2,41 +2,37 @@
 
 namespace App\Services;
 
+use App\Models\Cart;
 use App\Models\CartItem;
-use App\Models\OrderItem;
 use Illuminate\Support\Collection;
 
-class OrderDiscount
+class CartDiscount
 {
     private const DISCOUNTED_SAGAS = [
         'Harry Potter' => 7,
     ];
+    private Cart $cart;
 
-    public static function from(Collection $orderItems): self
+    public static function from(Cart $cart): self
     {
-        return (new self($orderItems))->calculateDiscounts();
+        return (new self($cart))->calculateDiscounts();
     }
 
-    /**
-     * @var OrderItem[]|Collection
-     */
     public Collection $remainingItems;
 
     public Collection $pairedVolumesDiscountedItems;
 
     public Collection $completeSagaDiscountedItems;
 
-    public Collection $orderItems;
-
     /**
-     * @param Collection|OrderItem|CartItem[] $orderItems
+     * @param Collection|CartItem[] $cartItems
      */
-    private function __construct(Collection $orderItems)
+    private function __construct(Cart $cart)
     {
-        $this->orderItems = $orderItems;
         $this->remainingItems = collect();
         $this->pairedVolumesDiscountedItems = collect();
         $this->completeSagaDiscountedItems = collect();
+        $this->cart = $cart;
     }
 
     private function calculateCompleteSagaDiscount(string $saga, int $maxVolume): void
@@ -103,7 +99,7 @@ class OrderDiscount
 
     public function calculateDiscounts(): self
     {
-        $this->remainingItems = $this->orderItems->map(fn ($item) => $item->replicate());
+        $this->remainingItems = $this->cart->items->map(fn ($item) => $item->replicate());
         $this->pairedVolumesDiscountedItems = collect();
         $this->completeSagaDiscountedItems = collect();
 
@@ -117,7 +113,7 @@ class OrderDiscount
 
     public function totalPrice(): float
     {
-        return $this->orderItems->map(fn ($item) => $item->book->price * $item->quantity)->sum();
+        return $this->cart->items->map(fn ($item) => $item->book->price * $item->quantity)->sum();
     }
 
     public function completeSagaDiscount(): float

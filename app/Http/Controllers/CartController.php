@@ -7,8 +7,7 @@ use App\Http\Resources\CartResource;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Services\OrderDiscount;
+use App\Services\CartDiscount;
 use Illuminate\Http\JsonResponse;
 
 class CartController extends Controller
@@ -53,20 +52,16 @@ class CartController extends Controller
     {
         $cart = Cart::current();
 
-        $items = $cart->items->map(fn ($item) => (new OrderItem())->fill($item->toArray()));
-
-        $orderDiscount = OrderDiscount::from($items);
+        $cartDiscount = CartDiscount::from($cart);
 
         $order = Order::create([
-            'total_price' => $orderDiscount->totalPrice(),
-            'discount' => $orderDiscount->totalDiscount(),
-            'discount_price' => $orderDiscount->totalDiscountedPrice(),
-            'complete_saga_discount' => $orderDiscount->completeSagaDiscount(),
-            'paired_volumes_discount' => $orderDiscount->pairedVolumesDiscount(),
+            'total_price' => $cartDiscount->totalPrice(),
+            'discount' => $cartDiscount->totalDiscount(),
+            'discount_price' => $cartDiscount->totalDiscountedPrice(),
+            'complete_saga_discount' => $cartDiscount->completeSagaDiscount(),
+            'paired_volumes_discount' => $cartDiscount->pairedVolumesDiscount(),
             'cart_id' => $cart->id,
         ]);
-
-        $order->items()->saveMany($items);
 
         return response()->json([
             'order' => $order,
