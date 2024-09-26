@@ -1,4 +1,4 @@
-import Item from "../components/Item.tsx";
+import CatalogItem from "../components/CatalogItem.tsx";
 import { BookInterface, Paginated, PaginationInterface } from "../types.js";
 import { fetchBooks } from "../api/booksApiClient";
 import { useEffect, useState } from "react";
@@ -38,7 +38,7 @@ const Home = () => {
         <>
             <h1 className="text-3xl font-bold mb-6 text-gray-800">Our Books</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {paginatedBooks?.data.map((item, index) => <Item key={index} {...item} />)}
+                {paginatedBooks?.data.map((item, index) => <CatalogItem key={index} {...item} />)}
             </div>
             {paginatedBooks && <Pagination pagination={paginatedBooks} prevPage={prevPage} nextPage={nextPage}/>}
         </>

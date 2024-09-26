@@ -2,7 +2,7 @@ import { BookInterface } from "../types";
 import { addItemToCart, selectCartItem, updateQuantity } from "../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 
-const Item = (item: BookInterface) => {
+const CatalogItem = (item: BookInterface) => {
     const dispatch = useAppDispatch();
     const cartItem = useAppSelector(state => selectCartItem(state, item.id));
 
@@ -45,4 +45,4 @@ const InStock = ({ stock, className }: {stock: number, className?: string}) => {
         </div>
     );
 };
-export default Item;
+export default CatalogItem;
