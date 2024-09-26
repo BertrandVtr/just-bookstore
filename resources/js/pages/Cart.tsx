@@ -1,22 +1,22 @@
 import { CartItemInterface, Order } from "../types";
-import { clearCart, removeItemFromCart, selectCartItems, selectIsCartEmpty, updateQuantity } from "../store/cartSlice";
-import { useAppDispatch, useAppSelector, useCartTotal } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { createNewOrder } from "../api/orderApiClient";
+import { removeCartItem, selectCart, selectCartItems, selectIsCartEmpty, setCart, updateCartItemQuantity } from "../store/cartSlice";
+import * as cartApiClient from '../api/cartApiClient';
 
 
 const Cart = () => {
     const isCartEmpty = useAppSelector(selectIsCartEmpty);
-    const cartItems = useAppSelector(selectCartItems);
     const dispatch = useAppDispatch();
 
     const [order, setOrder] = useState<Order | null>(null);
 
     async function makeOrder() {
         try {
-            setOrder(await createNewOrder(cartItems));
-            dispatch(clearCart());
+            const data = await cartApiClient.makeOrder();
+            dispatch(setCart(data.cart));
+            setOrder(data.order);
         } catch (err) {
         }
     }
@@ -43,27 +43,27 @@ const Cart = () => {
 };
 const TotalSection = () => {
     const {
-        total,
-        totalWithoutDiscount,
-        totalDiscount,
-        sagaDiscount,
-        pairedDiscount,
-    } = useCartTotal();
+        totalPrice,
+        discount,
+        pairedVolumesDiscount,
+        completeSagaDiscount,
+        discountPrice,
+    } = useAppSelector(selectCart);
 
     return (
         <>
             <div className="mt-6 text-sm">
-                <p className="flex justify-between items-center">discount by saga ({sagaDiscount.items} items): <span
-                    className="text-blue-400 italic">${sagaDiscount.amount.toFixed(2)}</span></p>
-                <p className="flex justify-between items-center">discount by paired book ({pairedDiscount.items} items): <span
-                    className="text-blue-400 italic">${pairedDiscount.amount.toFixed(2)}</span></p>
-                <p className="flex justify-between items-center">Total discount: <span className="text-blue-400 italic">${totalDiscount.toFixed(2)}</span></p>
+                <p className="flex justify-between items-center">discount by saga: <span
+                    className="text-blue-400 italic">${completeSagaDiscount.toFixed(2)}</span></p>
+                <p className="flex justify-between items-center">discount by paired book: <span
+                    className="text-blue-400 italic">${pairedVolumesDiscount.toFixed(2)}</span></p>
+                <p className="flex justify-between items-center">Total discount: <span className="text-blue-400 italic">${discount.toFixed(2)}</span></p>
             </div>
             <div className="flex justify-between items-center mt-6">
                 <div className="text-xl font-bold">Total</div>
                 <div className="text-xl">
-                    {total !== totalWithoutDiscount && <span className="line-through text-blue-400 font-thin">${totalWithoutDiscount.toFixed(2)}</span>}
-                    <span className="ml-2">${total.toFixed(2)}</span>
+                    {totalPrice !== discountPrice && <span className="line-through text-blue-400 font-thin">${totalPrice.toFixed(2)}</span>}
+                    <span className="ml-2">${discountPrice.toFixed(2)}</span>
                 </div>
             </div>
         </>
@@ -73,21 +73,27 @@ const TotalSection = () => {
 const CartItemList = () => {
     const cartItems = useAppSelector(selectCartItems);
 
-    return cartItems.map((item) => <CartItem key={item.id} item={item}/>);
+    return cartItems.map((item) => <CartItem key={item.book.id} item={item}/>);
 }
 
 const CartItem = ({ item }: {item: CartItemInterface}) => {
     const dispatch = useAppDispatch();
 
-    const decrementQuantity = () => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
-    const incrementQuantity = () => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
-    const removeItem = () => dispatch(removeItemFromCart(item.id));
+    const decrementQuantity = () => {
+        dispatch(updateCartItemQuantity({ bookId: item.book.id, quantity: item.quantity - 1 }));
+    }
+    const incrementQuantity = () => {
+        dispatch(updateCartItemQuantity({ bookId: item.book.id, quantity: item.quantity + 1 }));
+    }
+    const removeItem = () => {
+        dispatch(removeCartItem(item.book.id));
+    }
 
-    const itemTotalPrice = (item.price * item.quantity).toFixed(2);
+    const itemTotalPrice = (item.book.price * item.quantity).toFixed(2);
 
     return (
-        <div key={item.id} className="grid grid-cols-4 justify-between items-center border-b py-4">
-            <div className="text-lg justify-start">{item.title}</div>
+        <div key={item.book.id} className="grid grid-cols-4 justify-between items-center border-b py-4">
+            <div className="text-lg justify-start">{item.book.title}</div>
             <div className="flex items-center justify-center">
                 <button
                     className="bg-gray-200 text-gray-600 px-2 py-1 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
@@ -100,7 +106,7 @@ const CartItem = ({ item }: {item: CartItemInterface}) => {
                 <button
                     className="bg-gray-200 text-gray-600 px-2 py-1 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
                     onClick={incrementQuantity}
-                    disabled={item.quantity >= item.stock}
+                    disabled={item.quantity >= item.book.stock}
                 >
                     +
                 </button>

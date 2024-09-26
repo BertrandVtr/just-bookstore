@@ -1,17 +1,15 @@
 import { BookInterface } from "../types";
-import { addItemToCart, selectCartItem, updateQuantity } from "../store/cartSlice";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { selectCartItem, updateCartItemQuantity } from "../store/cartSlice";
 
 const CatalogItem = (item: BookInterface) => {
     const dispatch = useAppDispatch();
-    const cartItem = useAppSelector(state => selectCartItem(state, item.id));
+    const cartItem = useAppSelector((state) => selectCartItem(state, item.id));
 
     const remainingStock = item.stock - (cartItem?.quantity ?? 0);
     const addToCart = () => {
         if (remainingStock > 0) {
-            cartItem
-                ? dispatch(updateQuantity({ id: cartItem.id, quantity: cartItem.quantity + 1 }))
-                : dispatch(addItemToCart(item));
+            dispatch(updateCartItemQuantity({ bookId: item.id, quantity: (cartItem?.quantity ?? 0) + 1 }))
         }
     };
 

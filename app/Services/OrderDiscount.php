@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CartItem;
 use App\Models\OrderItem;
 use Illuminate\Support\Collection;
 
@@ -28,7 +29,7 @@ class OrderDiscount
     public Collection $orderItems;
 
     /**
-     * @param Collection|OrderItem[] $orderItems
+     * @param Collection|OrderItem|CartItem[] $orderItems
      */
     private function __construct(Collection $orderItems)
     {
@@ -78,7 +79,7 @@ class OrderDiscount
         $items->each(function ($item, $index) use ($maxVolume, $items) {
             $next = $items[$index + 1] ?? null;
 
-            if (! $next instanceof OrderItem) {
+            if ($next === null) {
                 return;
             }
 

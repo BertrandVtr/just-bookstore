@@ -1,8 +1,11 @@
 import { useAppSelector } from "../store/hooks";
 import { Link, Outlet } from "react-router-dom";
+import { selectTotalItems } from "../store/cartSlice";
 
 const PageLayout = () => {
-    const nbItems = useAppSelector(state => state.cart.cartItems.reduce((total, { quantity }) => total + quantity, 0));
+    // const nbItems = useAppSelector(state => state.cart.cartItems.reduce((total, { quantity }) => total + quantity, 0));
+
+    const nbItems = useAppSelector(selectTotalItems);
 
     return (
         <>

@@ -8,6 +8,9 @@ import "../css/app.css";
 import router from "./router";
 
 import store from "./store/store";
+import { fetchCurrentCart } from "./store/cartSlice";
+
+store.dispatch(fetchCurrentCart());
 
 // @ts-ignore
 ReactDOM.createRoot(document.getElementById("app")).render(

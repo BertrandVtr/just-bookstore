@@ -4,10 +4,9 @@ namespace App\Http\Requests;
 
 use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Validator;
 
-class StoreOrderRequest extends FormRequest
+class IncrementCartItemQuantityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,23 +24,16 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'items' => 'required|array',
-            'items.*.book_id' => 'required|exists:books,id',
-            'items.*.quantity' => [
+            'quantity' => [
                 'required',
                 'integer',
                 'min:1',
                 function (string $attribute, mixed $value, callable $fail, Validator $validator) {
 
-                    $bookId = data_get($validator->attributes(), str($attribute)->replace('quantity', 'book_id'));
-                    $book = Book::find($bookId);
-
-                    if (! $book instanceof Book) {
-                        return;
-                    }
+                    $book = $this->route()->parameter('book');
 
                     if ($value > $book->stock) {
-                        $fail("La quantité demandée pour le livre ID $bookId dépasse le stock disponible ($book->stock).");
+                        $fail("La quantité demandée pour le livre ID $book->id dépasse le stock disponible ($book->stock).");
                     }
                 },
             ],

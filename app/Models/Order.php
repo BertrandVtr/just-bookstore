@@ -9,16 +9,29 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        static::created(function (Order $order) {
+            $order->cart->update(['is_archived' => true]);
+        });
+    }
+
     protected $fillable = [
         'total_price',
         'discount',
         'discount_price',
         'complete_saga_discount',
         'paired_volumes_discount',
+        'cart_id',
     ];
 
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
     }
 }
