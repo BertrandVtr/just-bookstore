@@ -1,10 +1,10 @@
 import { configureStore, StateFromReducersMapObject } from '@reduxjs/toolkit';
 import cartReducer from './cartSlice';
 
-function loadState(): RootState {
+function loadState(): RootState | null {
     const storeState = localStorage.getItem('storeState')
 
-    return storeState ? JSON.parse(storeState) : {}
+    return storeState ? JSON.parse(storeState) : null
 }
 
 function storeState() {
