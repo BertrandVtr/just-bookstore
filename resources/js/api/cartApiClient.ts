@@ -1,7 +1,7 @@
-import axios from "axios";
 import { CartInterface, Order } from "../types";
+import createAxiosApiClient from "../utils/createAxiosApiClient.ts";
 
-const apiClient = axios.create({ baseURL: '/api/cart' });
+const apiClient = createAxiosApiClient('/api/cart');
 
 export async function getCurrentCart(): Promise<CartInterface> {
 
@@ -24,8 +24,8 @@ export async function removeCartItem(bookId: number): Promise<CartInterface> {
     return data;
 }
 
-export async function makeOrder(): Promise<{ cart: CartInterface, order: Order}> {
-    const { data } = await apiClient.post<{ cart: CartInterface, order: Order}>('/order');
+export async function makeOrder(): Promise<{cart: CartInterface, order: Order}> {
+    const { data } = await apiClient.post<{cart: CartInterface, order: Order}>('/order');
 
     return data;
 }

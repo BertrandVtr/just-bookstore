@@ -17,6 +17,9 @@ npm-install:
 npm-build:
 	vendor/bin/sail npm run build
 
+npm-node:
+	vendor/bin/sail npm run node
+
 migrate:
 	vendor/bin/sail artisan migrate
 

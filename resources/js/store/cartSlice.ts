@@ -25,7 +25,6 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         setCart: (state, action) => {
-            console.log(state, action.payload);
             const { complete_saga_discount, discount, discount_price, paired_volumes_discount, total_price, items } = action.payload;
 
             return {
