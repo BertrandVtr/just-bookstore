@@ -22,6 +22,44 @@ vendor/bin/sail open
 ```
 ou bien accéder à l'url [http://localhost](http://localhost)
 
+## Back-end
+
+Il y a 2 backend différents que vous pouvez tester comme bon vous semble: **Laravel** et **Node.js**
+
+### Laravel
+
+Afin d'utiliser Laravel, il suffit de ne pas set les variables d'env `VITE_API_URL` et `VITE_NODE_PORT` (ligne à commenter dans le `.env`)
+```dotenv
+#VITE_NODE_PORT=3000
+#VITE_API_URL="http://localhost:${VITE_NODE_PORT}"
+```
+Une fois la variable enregistrée, il sera necessaire de rebuild le front :
+
+```bash
+make npm-build
+```
+
+### Node JS
+
+Afin d'utiliser NodeJS, il faut set la variable `VITE_API_URL` dans le `.env` comme ceci:
+```dotenv
+VITE_NODE_PORT=3000
+VITE_API_URL="http://localhost:${VITE_NODE_PORT}"
+```
+Une fois la variable enregistrée, il sera necessaire de rebuild le front :
+
+```bash
+make npm-build
+```
+
+Il faudra également démarrer le serveur `NodeJS` via la commande `node` du makefile
+
+```bash
+make node
+```
+
+L'intégralité du code du server NodeJS se trouve dans le dossier `node-api` à la racine du répo.
+
 ## Commandes disponibles
 
 ### 1. `composer-install`
@@ -56,7 +94,15 @@ Construit les fichiers front-end (généralement les assets comme CSS et JavaScr
 make npm-build
 ```
 
-### 5. `migrate`
+### 5. `node`
+
+Lance le serveur NodeJS
+
+```bash
+make node
+```
+
+### 6. `migrate`
 
 Exécute les migrations de base de données Laravel.
 
@@ -64,7 +110,7 @@ Exécute les migrations de base de données Laravel.
 make migrate
 ```
 
-### 6. `seed`
+### 7. `seed`
 
 Remplit la base de données avec les données de test en utilisant les seeder de Laravel.
 
@@ -72,7 +118,7 @@ Remplit la base de données avec les données de test en utilisant les seeder de
 make seed
 ```
 
-### 7. `start`
+### 8. `start`
 
 Démarre l'environnement Sail s'il est arrêté.
 
@@ -90,7 +136,7 @@ Arrête et détruit les conteneurs Docker de Sail.
 make down
 ```
 
-### 8. `all` (default)
+### 10. `all` (default)
 
 Exécute les commandes suivantes dans cet ordre : `composer-install`, `up`, `npm-install`, `npm-build`, `migrate`, et `seed`.
 
